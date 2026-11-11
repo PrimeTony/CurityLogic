@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CurityLogic | Cybersecurity Value-Added Distributor</title>
+
+    <!-- Browser Tab Favicon Icon -->
+    <link rel="icon" type="image/png" href="/assets/Logo%20no%20background.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        dark: { base: '#07101f', surface: '#0f2342' },
+                        accent: { cyan: '#06b6d4', blue: '#3b82f6', emerald: '#10b981' }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background: #eef2f7; }
+ 
+        /* Light Glassmorphism */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(18px) saturate(170%);
+            -webkit-backdrop-filter: blur(18px) saturate(170%);
+            border: 1px solid rgba(255, 255, 255, 0.85);
+            box-shadow: 0 12px 40px -8px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(12px) saturate(160%);
+            -webkit-backdrop-filter: blur(12px) saturate(160%);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 16px -4px rgba(15, 23, 42, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: rgba(6, 182, 212, 0.55);
+            transform: translateY(-4px);
+            box-shadow: 0 14px 30px -10px rgba(6, 182, 212, 0.35);
+        }
+        .glass-input {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(15, 23, 42, 0.15);
+            color: #0f172a;
+            transition: all 0.3s ease;
+        }
+        .glass-input::placeholder { color: #64748b; }
+        .glass-input:focus {
+            outline: none;
+            border-color: #0891b2;
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.25);
+            background: rgba(255, 255, 255, 0.95);
+        }
+ 
+        /* Ambient glowing orbs */
+        .glow-orb {
+            position: fixed;
+            border-radius: 9999px;
+            filter: blur(90px);
+            pointer-events: none;
+            z-index: 0;
+            animation: drift 18s ease-in-out infinite alternate;
+        }
+        @keyframes drift { to { transform: translate(60px, 40px) scale(1.12); } }
+        @media (prefers-reduced-motion: reduce) { .glow-orb { animation: none; } }
+ 
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #eef2f7; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #06b6d4; }
+    </style>
+</head>
+<body class="text-slate-900 font-sans selection:bg-accent-cyan selection:text-dark-base relative overflow-x-hidden">
+ 
+    <!-- Interactive particle network background -->
+    <canvas id="particleCanvas" class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
+ 
+    <!-- Glowing orbs + faint grid -->
+    <div class="fixed inset-0 bg-[linear-gradient(to_right,#64748b14_1px,transparent_1px),linear-gradient(to_bottom,#64748b14_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none z-0"></div>
+    <div class="glow-orb w-[520px] h-[520px] -top-32 -left-32 bg-cyan-400/40"></div>
+    <div class="glow-orb w-[620px] h-[620px] top-1/3 -right-48 bg-blue-500/30" style="animation-delay:-6s"></div>
+    <div class="glow-orb w-[460px] h-[460px] -bottom-32 left-1/4 bg-sky-400/30" style="animation-delay:-12s"></div>
+ 
+    <!-- Navigation Bar -->
+    <header class="fixed top-0 left-0 right-0 z-50 px-4 sm:px-8 py-4">
+        <nav class="max-w-7xl mx-auto glass-panel rounded-2xl px-6 py-3 flex items-center justify-between">
+            <a href="#" class="flex items-center space-x-3 group">
+                <!-- Header Logo Image from cPanel assets -->
+                <img src="/assets/Logo%20no%20background.png" alt="CurityLogic Icon" class="w-12 h-12 object-contain transition-transform group-hover:scale-105">
+                <span class="font-bold text-xl tracking-wider text-slate-900">CURITY<span class="text-cyan-700">LOGIC</span></span>
+            </a>
+ 
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-700">
+                <a href="#about" class="hover:text-cyan-700 transition-colors">About</a>
+                <a href="#mission" class="hover:text-cyan-700 transition-colors">Mission &amp; Vision</a>
+                <a href="#services" class="hover:text-cyan-700 transition-colors">Services</a>
+                <a href="#contact" class="hover:text-cyan-700 transition-colors">Get in touch</a>
+            </div>
+ 
+            <div class="flex items-center space-x-4">
+                <a href="#contact" class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-gradient-to-r from-accent-cyan to-accent-blue text-dark-base font-semibold text-sm hover:shadow-lg hover:shadow-accent-cyan/40 transition-all transform hover:-translate-y-0.5 active:translate-y-0">
+                    Partner With Us
+                </a>
+                <button id="mobile-menu-btn" class="md:hidden text-slate-700 hover:text-slate-900 p-2 focus:outline-none" aria-label="Toggle Navigation">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </nav>
+ 
+        <div id="mobile-menu" class="hidden md:hidden max-w-7xl mx-auto mt-2 glass-panel rounded-2xl p-6">
+            <div class="flex flex-col space-y-4 text-center text-sm font-medium">
+                <a href="#about" class="mobile-link text-slate-700 hover:text-cyan-700 py-2 border-b border-slate-900/10">About</a>
+                <a href="#mission" class="mobile-link text-slate-700 hover:text-cyan-700 py-2 border-b border-slate-900/10">Mission &amp; Vision</a>
+                <a href="#services" class="mobile-link text-slate-700 hover:text-cyan-700 py-2 border-b border-slate-900/10">Services</a>
+                <a href="#contact" class="mobile-link text-slate-700 hover:text-cyan-700 py-2 border-b border-slate-900/10">Get in touch</a>
+                <a href="#contact" class="mobile-link inline-block w-full py-3 rounded-xl bg-gradient-to-r from-accent-cyan to-accent-blue text-dark-base font-semibold">Partner With Us</a>
+            </div>
+        </div>
+    </header>
+ 
+    <main class="relative z-10 pt-32 sm:pt-40">
+ 
+        <!-- Hero -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 sm:pb-32">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+ 
+                <div class="lg:col-span-7 space-y-8 text-center lg:text-left">
+                    <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-card border border-cyan-600/30 text-cyan-800 text-xs sm:text-sm font-semibold tracking-wide">
+                        <span class="w-2 h-2 rounded-full bg-accent-cyan animate-pulse"></span>
+                        <span>Happy To Serve</span>
+                    </div>
+ 
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                        Cybersecurity, <br class="hidden sm:inline"/>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600">made accessible</span> across Africa.
+                    </h1>
+ 
+                    <p class="text-lg sm:text-xl text-slate-700 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+                        A value-added distributor connecting organisations with trusted security technologies, specialised expertise, and dependable support.
+                    </p>
+ 
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                        <a href="#services" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-accent-cyan to-accent-blue text-dark-base font-bold text-base hover:shadow-xl hover:shadow-accent-cyan/35 transition-all transform hover:-translate-y-1 flex items-center justify-center space-x-2">
+                            <span>Explore Services</span>
+                            <i class="fa-solid fa-arrow-right text-sm"></i>
+                        </a>
+                        <a href="#contact" class="w-full sm:w-auto px-8 py-4 rounded-xl glass-card text-slate-900 font-semibold text-base flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-clipboard-check text-cyan-700"></i>
+                            <span>Request Assessment</span>
+                        </a>
+                    </div>
+ 
+                    <div class="pt-8 border-t border-slate-900/10 grid grid-cols-3 gap-4 text-center lg:text-left">
+                        <div>
+                            <div class="text-2xl sm:text-3xl font-extrabold text-slate-900">100%</div>
+                            <div class="text-xs sm:text-sm text-slate-600">African Focused</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl sm:text-3xl font-extrabold text-slate-900">360°</div>
+                            <div class="text-xs sm:text-sm text-slate-600">Security Support</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl sm:text-3xl font-extrabold text-slate-900">Tier-1</div>
+                            <div class="text-xs sm:text-sm text-slate-600">Tech Ecosystem</div>
+                        </div>
+                    </div>
+                </div>
+ 
+                <!-- Hero Visual -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative mx-auto max-w-md lg:max-w-none">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-accent-cyan to-accent-blue rounded-3xl blur-xl opacity-30 animate-pulse-slow"></div>
+ 
+                        <div class="relative glass-panel rounded-3xl p-6 sm:p-8 space-y-6">
+                            <div class="flex items-center justify-between pb-4 border-b border-slate-900/10">
+                                <div class="flex items-center space-x-2">
+                                    <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+                                    <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
+                                    <span class="w-3 h-3 rounded-full bg-green-500/80"></span>
+                                </div>
+                                <span class="text-xs font-mono text-cyan-800"><i class="fa-solid fa-globe mr-1"></i> </span>
+                            </div>
+ 
+                            <div class="space-y-4">
+                                <div class="glass-card p-4 rounded-xl flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 rounded-lg bg-accent-cyan/15 flex items-center justify-center text-cyan-700"><i class="fa-solid fa-network-wired"></i></div>
+                                        <div>
+                                            <div class="text-sm font-semibold text-slate-900">Network Edge Defense</div>
+                                            <div class="text-xs text-slate-600">Zero Trust Architecture</div>
+                                        </div>
+                                    </div>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-700 border border-emerald-600/30">Active</span>
+                                </div>
+ 
+                                <div class="glass-card p-4 rounded-xl flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 rounded-lg bg-accent-blue/15 flex items-center justify-center text-blue-700"><i class="fa-solid fa-database"></i></div>
+                                        <div>
+                                            <div class="text-sm font-semibold text-slate-900">Data Protection Layer</div>
+                                            <div class="text-xs text-slate-600">POPIA &amp; GDPR Compliant</div>
+                                        </div>
+                                    </div>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-700 border border-emerald-600/30">Secured</span>
+                                </div>
+ 
+                                <div class="glass-card p-4 rounded-xl flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 rounded-lg bg-purple-500/15 flex items-center justify-center text-purple-700"><i class="fa-solid fa-user-shield"></i></div>
+                                        <div>
+                                            <div class="text-sm font-semibold text-slate-900">Identity Access (IAM)</div>
+                                            <div class="text-xs text-slate-600">Multi-Factor Authentication</div>
+                                        </div>
+                                    </div>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-accent-cyan/10 text-cyan-800 border border-cyan-600/30">Enforced</span>
+                                </div>
+                            </div>
+ 
+                            <div class="pt-4 border-t border-slate-900/10 flex items-center justify-between text-xs text-slate-600 font-mono">
+                                <span>DISTRIBUTION MATRIX</span>
+                                <span class="text-cyan-800"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+ 
+            </div>
+        </section>
+ 
+        <!-- Focus Areas -->
+        <section class="py-12 border-y border-slate-900/10 bg-white/40 backdrop-blur-md">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <p class="text-center text-xs font-semibold text-slate-600 uppercase tracking-widest mb-8">Enterprise Cybersecurity Ecosystem Focus Areas</p>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                    <div class="glass-card p-4 rounded-xl text-center flex flex-col items-center justify-center space-y-2">
+                        <i class="fa-solid fa-lock text-cyan-700 text-xl"></i>
+                        <span class="text-xs font-semibold text-slate-800">Data Protection</span>
+                    </div>
+                    <div class="glass-card p-4 rounded-xl text-center flex flex-col items-center justify-center space-y-2">
+                        <i class="fa-solid fa-cloud text-blue-700 text-xl"></i>
+                        <span class="text-xs font-semibold text-slate-800">Cloud Security</span>
+                    </div>
+                    <div class="glass-card p-4 rounded-xl text-center flex flex-col items-center justify-center space-y-2">
+                        <i class="fa-solid fa-bug-slash text-purple-700 text-xl"></i>
+                        <span class="text-xs font-semibold text-slate-800">Threat Intelligence</span>
+                    </div>
+                    <div class="glass-card p-4 rounded-xl text-center flex flex-col items-center justify-center space-y-2">
+                        <i class="fa-solid fa-id-card-clip text-emerald-700 text-xl"></i>
+                        <span class="text-xs font-semibold text-slate-800">Identity &amp; Access</span>
+                    </div>
+                    <div class="glass-card p-4 rounded-xl text-center flex flex-col items-center justify-center space-y-2 col-span-2 md:col-span-1">
+                        <i class="fa-solid fa-diagram-project text-amber-700 text-xl"></i>
+                        <span class="text-xs font-semibold text-slate-800">Network Defense</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+ 
+        <!-- Pillars -->
+        <section class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <h2 class="text-xs font-semibold text-cyan-800 uppercase tracking-widest">Core Defense Pillars</h2>
+                <h3 class="text-3xl sm:text-4xl font-bold text-slate-900">Protecting What Matters Most</h3>
+                <p class="text-slate-600">Comprehensive security posture management designed around your organisation’s critical operational assets.</p>
+            </div>
+ 
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                <div class="glass-card p-6 rounded-2xl group relative overflow-hidden">
+                    <div class="w-12 h-12 rounded-xl bg-accent-cyan/15 flex items-center justify-center text-cyan-700 mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-users text-xl"></i></div>
+                    <h4 class="text-lg font-bold text-slate-900 mb-2">People</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">Security awareness, identity verification, and access controls for remote and hybrid workforces.</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl group relative overflow-hidden">
+                    <div class="w-12 h-12 rounded-xl bg-accent-blue/15 flex items-center justify-center text-blue-700 mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-box-archive text-xl"></i></div>
+                    <h4 class="text-lg font-bold text-slate-900 mb-2">Data</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">Encryption, data loss prevention (DLP), and governance across structured and unstructured stores.</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl group relative overflow-hidden">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/15 flex items-center justify-center text-purple-700 mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-server text-xl"></i></div>
+                    <h4 class="text-lg font-bold text-slate-900 mb-2">Systems</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">Hardening endpoints, cloud workloads, virtual environments, and critical IT infrastructure.</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl group relative overflow-hidden">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/15 flex items-center justify-center text-emerald-700 mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-wifi text-xl"></i></div>
+                    <h4 class="text-lg font-bold text-slate-900 mb-2">Networks</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">Perimeter defense, micro-segmentation, SD-WAN security, and real-time traffic analysis.</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl group relative overflow-hidden md:col-span-3 lg:col-span-1">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/15 flex items-center justify-center text-amber-700 mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-gears text-xl"></i></div>
+                    <h4 class="text-lg font-bold text-slate-900 mb-2">Operations</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">Business continuity, incident response readiness, compliance tracking, and resiliency management.</p>
+                </div>
+            </div>
+        </section>
+ 
+        <!-- About, Mission, Vision -->
+        <section id="about" class="py-24 bg-white/30 relative border-t border-slate-900/10">
+            <div id="mission" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
+ 
+                <div class="grid lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-6 space-y-6">
+                        <div class="inline-flex items-center space-x-2 text-cyan-800 text-xs font-semibold uppercase tracking-widest">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <span>About CurityLogic</span>
+                        </div>
+                        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900">Trusted technology, local insight.</h2>
+                        <p class="text-slate-700 leading-relaxed">
+                            Through strong partnerships with leading technology providers, channel partners and customers, we make cybersecurity solutions more accessible, relevant and effective for the South African and broader African market.
+                        </p>
+                        <p class="text-slate-600 leading-relaxed">
+                            Our approach combines proven technologies with practical guidance, local market insight and ongoing support to help organisations identify, manage and reduce cyber risk efficiently.
+                        </p>
+                    </div>
+ 
+                    <div class="lg:col-span-6">
+                        <div class="glass-panel p-8 rounded-3xl space-y-6 relative">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-accent-cyan to-accent-blue flex items-center justify-center text-dark-base font-bold text-xl">CL</div>
+                                <div>
+                                    <h4 class="text-slate-900 font-bold text-lg">Value-Add Cybersecurity Distribution</h4>
+                                    <p class="text-xs text-slate-600">Headquartered in South Africa — Servicing Africa</p>
+                                </div>
+                            </div>
+                            <blockquote class="text-slate-700 italic border-l-2 border-accent-cyan pl-4 text-sm">
+                                "Bridging the gap between global technology innovations and regional security execution."
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+ 
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="glass-panel p-8 sm:p-10 rounded-3xl space-y-4 border-l-4 border-l-accent-cyan relative overflow-hidden">
+                        <div class="w-14 h-14 rounded-2xl bg-accent-cyan/15 flex items-center justify-center text-cyan-700 text-2xl mb-6"><i class="fa-solid fa-bullseye"></i></div>
+                        <h3 class="text-2xl font-bold text-slate-900">Our Mission</h3>
+                        <p class="text-slate-700 leading-relaxed">
+                            To empower organisations with trusted cybersecurity solutions, expertise and support that protect their people, data, systems and operations.
+                        </p>
+                    </div>
+                    <div class="glass-panel p-8 sm:p-10 rounded-3xl space-y-4 border-l-4 border-l-accent-blue relative overflow-hidden">
+                        <div class="w-14 h-14 rounded-2xl bg-accent-blue/15 flex items-center justify-center text-blue-700 text-2xl mb-6"><i class="fa-solid fa-eye"></i></div>
+                        <h3 class="text-2xl font-bold text-slate-900">Our Vision</h3>
+                        <p class="text-slate-700 leading-relaxed">
+                            To be a trusted cybersecurity distribution partner in South Africa and across Africa, enabling organisations to operate securely, confidently and resiliently.
+                        </p>
+                    </div>
+                </div>
+ 
+            </div>
+        </section>
+ 
+        <!-- Services -->
+        <section id="services" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <h2 class="text-xs font-semibold text-cyan-800 uppercase tracking-widest">End-To-End Engagement</h2>
+                <h3 class="text-3xl sm:text-4xl font-bold text-slate-900">Support across the full customer journey.</h3>
+                <p class="text-slate-600">Whether evaluating new security investments or scaling established operations, we deliver targeted expertise at every phase.</p>
+            </div>
+ 
+            <div class="grid lg:grid-cols-3 gap-8">
+ 
+                <div class="glass-panel p-8 rounded-3xl flex flex-col justify-between hover:border-cyan-500/60 hover:-translate-y-1 transition-all group">
+                    <div class="space-y-6">
+                        <div class="flex items-center justify-between">
+                            <span class="text-4xl font-extrabold text-slate-900/15 group-hover:text-cyan-600 transition-colors">01</span>
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-accent-cyan/10 text-cyan-800 border border-cyan-600/30">Strategy</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-slate-900">Advisory</h4>
+                        <p class="text-slate-700 text-sm leading-relaxed">Turning complex security questions into practical direction, so investment lands where it matters most.</p>
+                        <ul class="space-y-3 pt-4 border-t border-slate-900/10 text-sm text-slate-600">
+                            <li class="flex items-start space-x-3"><i class="fa-solid fa-circle-check text-cyan-700 mt-1"></i><span>Assess priorities and risk exposure</span></li>
+                            <li class="flex items-start space-x-3"><i class="fa-solid fa-circle-check text-cyan-700 mt-1"></i><span>Define strategic objectives and roadmaps</span></li>
+                            <li class="flex items-start space-x-3"><i class="fa-solid fa-circle-check text-cyan-700 mt-1"></i><span>Make informed technology decisions</span></li>
+                        </ul>
+                    </div>
+                </div>
+ 
+                <div class="glass-panel p-8 rounded-3xl flex flex-col justify-between hover:border-blue-500/60 hover:-translate-y-1 transition-all group">
+                    <div class="space-y-6">
+                        <div class="flex items-center justify-between">
+                            <span class="text-4xl font-extrabold text-slate-900/15 group-hover:text-blue-600 transition-colors">02</span>
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-accent-blue/10 text-blue-800 border border-blue-600/30">Architecture</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-slate-900">Consultancy</h4>
+                        <p class="text-slate-700 text-sm leading-relaxed">Tailored guidance to solve a specific challenge, validate an approach or plan your next stage.</p>
+                        <ul class="space-y-3 pt-4 border-t border-slate-900/10 text-sm text-slate-600">
+                            <li class="flex items-start space-x-3"><i class="fa-solid fa-circle-check text-blue-700 mt-1"></i><span>Expert vulnerability &amp; risk assessments</span></li>
+                            <li class="flex items-start space-x-3"><i class="fa-solid fa-circle-check text-blue-700 mt-1"></i><span>Solution architecture and technical planning</span></li>
+                            <li class="flex items-start space-x-3"><i class="fa-solid fa-circle-check text-blue-700 mt-1"></i><span>Risk, compliance and integration support</span></li>
+                        </ul>
+                    </div>
+                </div>
+ 
+                <div class="glass-panel p-8 rounded-3xl flex flex-col justify-between hover:border-purple-500/60 hover:-translate-y-1 transition-all group">
+                    <div class="space-y-6">
+                        <div class="flex items-center justify-between">
+                            <span class="text-4xl font-extrabold text-slate-900/15 group-hover:text-purple-600 transition-colors">03</span>
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-800 border border-purple-600/30">Execution</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-slate-900">Professional Services</h4>
+                        <p class="text-slate-700 text-sm leading-relaxed">Practical implementation and ongoing operation, moving from plans to dependable outcomes.</p>
+                        <ul class="space-y-3 pt-4 border-t border-slate-900/10 text-sm text-slate-600">
+                            <li class="flex items-start space-x-3"><i class="fa-solid fa-circle-check text-purple-700 mt-1"></i><span>Deployment, configuration and integration</span></li>
+                            <li class="flex items-start space-x-3"><i class="fa-solid fa-circle-check text-purple-700 mt-1"></i><span>Optimisation and knowledge transfer</span></li>
+                            <li class="flex items-start space-x-3"><i class="fa-solid fa-circle-check text-purple-700 mt-1"></i><span>Technical and post-implementation support</span></li>
+                        </ul>
+                    </div>
+                </div>
+ 
+            </div>
+        </section>
+ 
+        <!-- Contact -->
+        <section id="contact" class="py-24 bg-white/40 border-t border-slate-900/10 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid lg:grid-cols-12 gap-12">
+ 
+                    <div class="lg:col-span-5 space-y-8">
+                        <div>
+                            <span class="text-xs font-semibold text-cyan-800 uppercase tracking-widest">Connect With Us</span>
+                            <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mt-2">Let’s strengthen your digital resilience.</h2>
+                        </div>
+                        <p class="text-slate-700 leading-relaxed">
+                            Tell us about your security priorities and we’ll connect you with the right solutions, vendor technologies, and distribution expertise.
+                        </p>
+ 
+                        <div class="space-y-4">
+                            <div class="glass-card p-4 rounded-xl flex items-center space-x-4">
+                                <div class="w-10 h-10 rounded-lg bg-accent-cyan/15 flex items-center justify-center text-cyan-700"><i class="fa-solid fa-envelope"></i></div>
+                                <div>
+                                    <div class="text-xs text-slate-600">Direct Contact</div>
+                                    <a href="mailto:info@curitylogic.co.za" class="text-sm font-medium text-slate-900 hover:text-cyan-700 transition-colors">info@curitylogic.co.za</a>
+                                </div>
+                            </div>
+                            <div class="glass-card p-4 rounded-xl flex items-center space-x-4">
+                                <div class="w-10 h-10 rounded-lg bg-accent-blue/15 flex items-center justify-center text-blue-700"><i class="fa-solid fa-location-dot"></i></div>
+                                <div>
+                                    <div class="text-xs text-slate-600">Regional Reach</div>
+                                    <div class="text-sm font-medium text-slate-900">South Africa &amp; Broader Africa</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+ 
+                    <div class="lg:col-span-7">
+                        <div class="glass-panel p-8 sm:p-10 rounded-3xl relative">
+                            <form id="contact-form" class="space-y-6" onsubmit="handleFormSubmit(event)">
+
+                                <!-- Spam trap: hidden from humans, bots fill it in -->
+                                <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0">
+ 
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-3">I am reaching out as an:</label>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <button type="button" id="persona-enterprise" onclick="selectPersona('enterprise')" class="persona-btn py-3 px-4 rounded-xl glass-card text-xs sm:text-sm font-medium !border-cyan-600 text-cyan-800 flex items-center justify-center space-x-2">
+                                            <i class="fa-solid fa-building"></i><span>Enterprise / End-User</span>
+                                        </button>
+                                        <button type="button" id="persona-partner" onclick="selectPersona('partner')" class="persona-btn py-3 px-4 rounded-xl glass-card text-xs sm:text-sm font-medium text-slate-600 flex items-center justify-center space-x-2">
+                                            <i class="fa-solid fa-handshake"></i><span>Channel Partner / VAR</span>
+                                        </button>
+                                    </div>
+                                    <input type="hidden" id="persona-type" name="persona" value="enterprise">
+                                </div>
+ 
+                                <div class="grid sm:grid-cols-2 gap-6">
+                                    <div>
+                                        <label for="name" class="block text-xs font-medium text-slate-700 mb-2">Full Name</label>
+                                        <input type="text" id="name" name="name" required placeholder="e.g. Sipho Ndlovu" class="w-full px-4 py-3 rounded-xl glass-input text-sm">
+                                    </div>
+                                    <div>
+                                        <label for="email" class="block text-xs font-medium text-slate-700 mb-2">Work Email</label>
+                                        <input type="email" id="email" name="email" required placeholder="name@company.co.za" class="w-full px-4 py-3 rounded-xl glass-input text-sm">
+                                    </div>
+                                </div>
+ 
+                                <div class="grid sm:grid-cols-2 gap-6">
+                                    <div>
+                                        <label for="org" class="block text-xs font-medium text-slate-700 mb-2">Organisation Name</label>
+                                        <input type="text" id="org" name="org" required placeholder="Company Ltd" class="w-full px-4 py-3 rounded-xl glass-input text-sm">
+                                    </div>
+                                    <div>
+                                        <label for="service-interest" class="block text-xs font-medium text-slate-700 mb-2">Primary Interest</label>
+                                        <select id="service-interest" name="interest" class="w-full px-4 py-3 rounded-xl glass-input text-sm">
+                                            <option value="Advisory">01 Advisory Services</option>
+                                            <option value="Consultancy">02 Technical Consultancy</option>
+                                            <option value="Professional Services">03 Professional Services &amp; Implementation</option>
+                                            <option value="Distribution Partnership">Channel Partner Onboarding</option>
+                                        </select>
+                                    </div>
+                                </div>
+ 
+                                <div>
+                                    <label for="message" class="block text-xs font-medium text-slate-700 mb-2">How can we assist?</label>
+                                    <textarea id="message" name="message" rows="4" required placeholder="Briefly describe your cybersecurity priorities or project scope..." class="w-full px-4 py-3 rounded-xl glass-input text-sm"></textarea>
+                                </div>
+ 
+                                <button type="submit" id="submit-btn" class="w-full py-4 rounded-xl bg-gradient-to-r from-accent-cyan to-accent-blue text-dark-base font-bold text-base hover:shadow-xl hover:shadow-accent-cyan/35 transition-all flex items-center justify-center space-x-2 disabled:opacity-60 disabled:cursor-not-allowed">
+                                    <span id="submit-label">Submit Request</span>
+                                    <i id="submit-icon" class="fa-solid fa-paper-plane text-sm"></i>
+                                </button>
+
+                                <p id="form-error" class="hidden text-sm text-red-700 text-center" role="alert"></p>
+                            </form>
+ 
+                            <div id="form-toast" class="hidden absolute inset-0 bg-white/90 backdrop-blur-xl rounded-3xl p-8 flex flex-col items-center justify-center text-center space-y-4">
+                                <div class="w-16 h-16 rounded-full bg-emerald-500/15 text-emerald-700 flex items-center justify-center text-2xl"><i class="fa-solid fa-check font-bold"></i></div>
+                                <h4 class="text-2xl font-bold text-slate-900">Message Received</h4>
+                                <p class="text-sm text-slate-700 max-w-md">Thank you for reaching out to CurityLogic. Our team will review your inquiry and get back to you shortly.</p>
+                                <button onclick="resetToast()" class="px-6 py-2.5 rounded-xl glass-card text-xs text-slate-900">Close Window</button>
+                            </div>
+                        </div>
+                    </div>
+ 
+                </div>
+            </div>
+        </section>
+ 
+    </main>
+ 
+    <!-- Footer -->
+    <footer class="border-t border-slate-900/10 bg-white/50 backdrop-blur-md py-12 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center space-x-3">
+                <img src="/assets/Logo%20no%20background.png" alt="CurityLogic Icon" class="w-6 h-6 object-contain">
+                <span class="font-bold text-lg text-slate-900">CURITY<span class="text-cyan-700">LOGIC</span></span>
+            </div>
+            <div class="text-xs text-slate-600 text-center">© 2026 CurityLogic. All rights reserved. Value-Added Cybersecurity Distributor.</div>
+            <div class="flex items-center space-x-6 text-slate-600 text-sm">
+                <a href="#about" class="hover:text-cyan-700 transition-colors">About</a>
+                <a href="#services" class="hover:text-cyan-700 transition-colors">Services</a>
+                <a href="#contact" class="hover:text-cyan-700 transition-colors">Contact</a>
+            </div>
+        </div>
+    </footer>
+ 
+    <script>
+        // Mobile menu
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+ 
+        // Persona selector
+        function selectPersona(type) {
+            const e = document.getElementById('persona-enterprise');
+            const p = document.getElementById('persona-partner');
+            document.getElementById('persona-type').value = type;
+            const on = ['!border-cyan-600', 'text-cyan-800'];
+            const off = ['text-slate-600'];
+            const [a, b] = type === 'enterprise' ? [e, p] : [p, e];
+            a.classList.add(...on); a.classList.remove(...off);
+            b.classList.remove(...on); b.classList.add(...off);
+        }
+ 
+        // Form submit handler: posts to send-form.php, which emails the enquiry
+        async function handleFormSubmit(ev) {
+            ev.preventDefault();
+            const form = document.getElementById('contact-form');
+            const btn = document.getElementById('submit-btn');
+            const label = document.getElementById('submit-label');
+            const icon = document.getElementById('submit-icon');
+            const errorBox = document.getElementById('form-error');
+
+            errorBox.classList.add('hidden');
+            btn.disabled = true;
+            label.textContent = 'Sending...';
+            icon.className = 'fa-solid fa-spinner fa-spin text-sm';
+
+            try {
+                const res = await fetch('send-form.php', { method: 'POST', body: new FormData(form) });
+                const data = await res.json();
+                if (res.ok && data.ok) {
+                    document.getElementById('form-toast').classList.remove('hidden');
+                } else {
+                    throw new Error('Send failed');
+                }
+            } catch (err) {
+                errorBox.textContent = 'Sorry, something went wrong. Please try again or email info@curitylogic.co.za directly.';
+                errorBox.classList.remove('hidden');
+            } finally {
+                btn.disabled = false;
+                label.textContent = 'Submit Request';
+                icon.className = 'fa-solid fa-paper-plane text-sm';
+            }
+        }
+        function resetToast() {
+            document.getElementById('form-toast').classList.add('hidden');
+            document.getElementById('contact-form').reset();
+            selectPersona('enterprise');
+        }
+ 
+        // Particle network background
+        (function () {
+            const canvas = document.getElementById('particleCanvas');
+            const ctx = canvas.getContext('2d');
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+            let particles = [];
+            let count = Math.min(Math.floor(width * 0.05), 65);
+            const mouse = { x: null, y: null, radius: 140 };
+            const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ 
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+                count = Math.min(Math.floor(width * 0.05), 65);
+                init();
+            });
+            window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+            window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+            window.addEventListener('touchmove', e => {
+                if (e.touches.length) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; }
+            }, { passive: true });
+            window.addEventListener('touchend', () => { mouse.x = null; mouse.y = null; });
+ 
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.r = Math.random() * 2 + 1;
+                    this.vx = (Math.random() - 0.5) * 0.8;
+                    this.vy = (Math.random() - 0.5) * 0.8;
+                }
+                update() {
+                    this.x += this.vx; this.y += this.vy;
+                    if (this.x < 0 || this.x > width) this.vx *= -1;
+                    if (this.y < 0 || this.y > height) this.vy *= -1;
+                    if (mouse.x !== null) {
+                        const dx = mouse.x - this.x, dy = mouse.y - this.y;
+                        const d = Math.sqrt(dx * dx + dy * dy);
+                        if (d < mouse.radius && d > 0) {
+                            const f = (mouse.radius - d) / mouse.radius;
+                            this.x -= (dx / d) * f * 3;
+                            this.y -= (dy / d) * f * 3;
+                        }
+                    }
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(71, 85, 105, 0.55)';
+                    ctx.fill();
+                }
+            }
+ 
+            function init() {
+                particles = [];
+                for (let i = 0; i < count; i++) particles.push(new Particle());
+            }
+ 
+            function frame() {
+                ctx.clearRect(0, 0, width, height);
+                for (const p of particles) { if (!still) p.update(); p.draw(); }
+                for (let a = 0; a < particles.length; a++) {
+                    for (let b = a + 1; b < particles.length; b++) {
+                        const dx = particles[a].x - particles[b].x;
+                        const dy = particles[a].y - particles[b].y;
+                        const d = Math.sqrt(dx * dx + dy * dy);
+                        if (d < 130) {
+                            ctx.strokeStyle = `rgba(71, 85, 105, ${(1 - d / 130) * 0.3})`;
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[a].x, particles[a].y);
+                            ctx.lineTo(particles[b].x, particles[b].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+                if (!still) requestAnimationFrame(frame);
+            }
+ 
+            init();
+            frame();
+        })();
+    </script>
+</body>
+</html>
